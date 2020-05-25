@@ -23,13 +23,13 @@
 world=/var/terraria/worlds/DockerWorld.wld
 
 #Creates a new world if none is found. World size is specified by: 1(small), 2(medium), and 3(large).
-autocreate=1
+autocreate=3
 
 #Sets the world seed when using autocreate
 #seed=AwesomeSeed
 
 #Sets the name of the world when using autocreate
-worldname=TerrariaJourney
+worldname=DockerWorld
 
 #Sets the difficulty of the world when using autocreate 0(classic), 1(expert), 2(master), 3(journey)
 difficulty=3

@@ -6,6 +6,7 @@ ARG EXTRACTED_FOLDER_NAME=1404
 ARG INSTALL_PACKAGES='wget unzip'
 
 ARG TERRARIA_PORT=7777
+ARG TERRARIA_WORLD_NAME=DockerWorld
 ENV MONO_IOMAP=all
 
 EXPOSE $TERRARIA_PORT/tcp
@@ -28,4 +29,4 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install $INSTALL_PACKAGES
 
 COPY ./serverconfig.txt /etc/terraria/
 
-ENTRYPOINT ["terraria", "-config", "/etc/terraria/serverconfig.txt", "-password "]]
+ENTRYPOINT ["terraria", "-config", "/etc/terraria/serverconfig.txt", "-worldname", "$TERRARIA_WORLD_NAME",  "-password "]]
