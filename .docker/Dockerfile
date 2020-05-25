@@ -1,17 +1,16 @@
-FROM alpine:latest
+FROM ubuntu:latest
 MAINTAINER Steve Cirelli "steve@cirelli.org"
 
-ARG INSTALL_PACKAGES='wget unzip'
 ARG TERRARIA_DOWNLOAD='https://terraria.org/system/dedicated_servers/archives/000/000/038/original/terraria-server-1404.zip'
 ARG EXTRACTED_FOLDER_NAME=1404
+ARG INSTALL_PACKAGES='wget unzip'
 
 ARG TERRARIA_PORT=7777
-
 ENV MONO_IOMAP=all
 
 EXPOSE $TERRARIA_PORT/tcp
 
-RUN apk add --no-cache $INSTALL_PACKAGES libc6-compat libgcc gcompat && \
+RUN apt-get update && apt-get -y upgrade && apt-get -y install $INSTALL_PACKAGES && \
     cd /tmp && \
         wget -O terraria.zip $TERRARIA_DOWNLOAD && \
         unzip terraria.zip && \
@@ -23,9 +22,10 @@ RUN apk add --no-cache $INSTALL_PACKAGES libc6-compat libgcc gcompat && \
     echo 'clean up' && \
         cd /tmp && \
         rm -rf terraria.zip $EXTRACTED_FOLDER_NAME && \
-        apk del $INSTALL_PACKAGES && \
+        apt-get -y remove $INSTALL_PACKAGES && \
+        apt-get clean && apt-get -y autoremove && \
     echo 'done'
 
-COPY ./serverconfig.txt /opt/terraria/
+COPY ./serverconfig.txt /etc/terraria/
 
-ENTRYPOINT ["terraria", "-password "]]
+ENTRYPOINT ["terraria", "-config", "/etc/terraria/serverconfig.txt", "-password "]]
